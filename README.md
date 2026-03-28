@@ -16,6 +16,3 @@ The result is sent to Unity to trigger movement.
 - `main.py` — processes EMG and sends data (UDP)  
 - `WebSocketReceiver.cs` — receives data in Unity and moves object  
 
-## Setup
-
-Python:

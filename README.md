@@ -1,117 +1,66 @@
 EMG-Controlled Unity Interaction
 
-Real-time EMG control system using an OpenBCI Ganglion, Python, LSL, UDP, and Unity.
+A real-time electromyography (EMG) control system that translates muscle activity into binary control signals for object interaction in Unity. The system integrates OpenBCI Ganglion, Python, Lab Streaming Layer (LSL), and UDP communication.
 
-Code Layout
+Project Structure
 
 EMG-Controlled-Unity/
-│
 ├── Python/
 │   └── main.py
-│
 ├── Unity/
 │   └── WebSocketReceiver.cs
-│
 └── README.md
 
-Data Flow
+System Architecture
 
 OpenBCI Ganglion
-       │
-       ▼
+       ↓
       LSL
+       ↓
+Python (main.py)
        │
-       ▼
-    main.py
-       │
-       ├── Filter
-       ├── Rectify
-       ├── RMS
-       └── Threshold
-       │
-       ▼
-     0 / 1
-       │
-       ▼
+       ├── Filtering
+       ├── Rectification
+       ├── RMS Calculation
+       └── Threshold Detection
+       ↓
+Binary Output (0/1)
+       ↓
       UDP
-       │
-       ▼
-WebSocketReceiver.cs
-       │
-       ▼
-   Unity Object
+       ↓
+Unity (WebSocketReceiver.cs)
+       ↓
+Object Interaction
 
-Python
+Implementation
 
-main.py
+Python — main.py
 
-Processes the incoming EMG stream and converts muscle activity into a digital activation signal.
+Acquires EMG data through LSL and processes the signal using filtering, rectification, and root mean square (RMS) calculations. A predefined threshold converts muscle activity into binary activation states (0/1), which are transmitted to Unity via UDP.
 
-Pipeline:
+Unity — WebSocketReceiver.cs
 
-EMG Signal
-    ↓
-Filtering
-    ↓
-Rectification
-    ↓
-RMS
-    ↓
-Threshold
-    ↓
-Binary Output
+Receives the processed activation states and maps them to object interactions within the Unity environment, separating signal processing from application-level control.
 
-The resulting 0/1 activation state is transmitted to Unity over the network.
+Technology Stack
 
-Unity
+* Hardware: OpenBCI Ganglion, EMG electrodes
+* Languages: Python, C#
+* Frameworks/Tools: Unity, Lab Streaming Layer (LSL)
+* Communication: UDP
 
-WebSocketReceiver.cs
+Current Capabilities
 
-Receives the control signal from the Python processing pipeline and maps the activation state to an object interaction inside Unity.
+* Real-time EMG acquisition and processing
+* RMS-based muscle activation detection
+* Binary control signal generation
+* UDP communication between Python and Unity
+* Real-time Unity object interaction
 
-The receiver acts as the interface between the external EMG system and the Unity application.
+Future Development
 
-Note: If this script communicates directly using UDP, rename it to UDPReceiver.cs so the filename matches the implementation.
-
-Hardware
-
-* OpenBCI Ganglion
-* EMG electrodes
-* Computer running the Python processing pipeline
-* Computer running Unity
-
-Software
-
-* Python
-* Unity
-* C#
-* Lab Streaming Layer (LSL)
-* UDP
-
-System Overview
-
-The project separates signal acquisition, signal processing, network communication, and visualization/control into distinct stages.
-
-This allows the EMG signal to be processed independently from the Unity application while maintaining real-time interaction.
-
-Current Functionality
-
-* Real-time EMG acquisition
-* LSL data streaming
-* EMG filtering
-* Signal rectification
-* RMS calculation
-* Threshold-based activation detection
-* Network transmission
-* Unity object control
-
-Future Improvements
-
-* Adaptive thresholds
-* Hysteresis for more stable activation
-* Multi-level EMG control
-* Multiple EMG channels
-* Real-time signal visualization
-* End-to-end latency measurements
-* State-machine based control
-* Embedded implementation using ESP32
+* Adaptive thresholding and hysteresis
+* Multichannel and multi-level EMG classification
+* Real-time signal visualization and latency analysis
+* State-machine-based control
+* ESP32-based embedded implementation
